@@ -30,24 +30,24 @@ module.exports.isOwner = async (req, res, next) => {
     next();
 };
 
+// Validate Listing
 module.exports.validateListing = (req, res, next) => {
-    let { error } = listingSchema.validate(req.body);
+    const { error } = listingSchema.validate(req.body, { abortEarly: false });
     if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg)
-    } else {
-        next();
+        const msg = error.details.map(el => el.message).join(", ");
+        throw new ExpressError(msg, 400);
     }
+    next();
 };
 
+// Validate Review
 module.exports.validateReview = (req, res, next) => {
-    let { error } = reviewSchema.validate(req.body);
+    const { error } = reviewSchema.validate(req.body, { abortEarly: false });
     if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg)
-    } else {
-        next();
+        const msg = error.details.map(el => el.message).join(", ");
+        throw new ExpressError(msg, 400);
     }
+    next();
 };
 
 module.exports.isReviewAuthor = async (req, res, next) => {

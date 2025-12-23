@@ -1,3 +1,4 @@
+<!-- Updated boilerplate.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +34,41 @@
 
     <%- include("../includes/footer.ejs") %>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-    <script src="/js/script.js"></script>
+    <script>
+        let listingData = null; // will be set in page-specific EJS
+
+        function initMap() {
+            // Default location if no listing data is present (India center)
+            const defaultCoords = { lat: 20.5937, lng: 78.9629 };
+
+            const coords = listingData && listingData.geometry
+                ? {
+                    lat: listingData.geometry.coordinates[1],
+                    lng: listingData.geometry.coordinates[0]
+                }
+                : defaultCoords;
+
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: coords,
+                zoom: listingData ? 12 : 4,
+                mapId: "WANDERLUST_MAP"
+            });
+
+            if (listingData && listingData.geometry) {
+                new google.maps.marker.AdvancedMarkerElement({
+                    position: coords,
+                    map: map,
+                    title: listingData.title || "Listing Location"
+                });
+            }
+        }
+    </script>
+
+    <!-- Load Google Maps API once -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=<%=process.env.GOOGLE_MAPS_API_KEY%>&libraries=marker,places&callback=initMap"
+        async
+        defer>
+    </script>
 </body>
 </html>

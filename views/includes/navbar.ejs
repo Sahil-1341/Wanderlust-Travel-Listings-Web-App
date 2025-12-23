@@ -13,7 +13,6 @@
     display: inline;
     margin-right: 0.5rem;
   }
-
   .search-inp {
     border-radius: 25px;
     padding: 0.5rem 3rem 0.5rem 3rem;
@@ -50,12 +49,11 @@
       </div>
       <div class="navbar-nav ms-auto">
         <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        <% if(!currUser) { %>
-        <a class="nav-link" href="/signup"><b>Sign up</b></a>
-        <a class="nav-link" href="/login"><b>Log in</b></a>
-        <% } %>
-         <% if(currUser) { %>
-        <a class="nav-link" href="/logout"><b>Log out</b></a>
+        <% if (!locals.currUser) { %>
+          <a class="nav-link" href="/signup"><b>Sign up</b></a>
+          <a class="nav-link" href="/login"><b>Log in</b></a>
+        <% } else { %>
+          <a class="nav-link" href="/logout"><b>Log out</b></a>
         <% } %>
       </div>
     </div>
